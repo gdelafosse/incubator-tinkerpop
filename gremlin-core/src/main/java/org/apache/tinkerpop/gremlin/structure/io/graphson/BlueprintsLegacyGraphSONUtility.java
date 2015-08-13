@@ -37,10 +37,14 @@ import org.codehaus.jettison.json.JSONTokener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Array;
-import java.util.*;
-
-//import com.tinkerpop.blueprints.Direction;
-//import com.tinkerpop.blueprints.Element;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Helps write individual graph elements to TinkerPop JSON format known as GraphSON.
@@ -183,7 +187,7 @@ public class BlueprintsLegacyGraphSONUtility {
     public Vertex vertexFromJson(final JsonNode json) throws IOException {
         final Map<String, Object> props = readProperties(json, true, this.hasEmbeddedTypes);
 
-        final Object vertexId = getTypedValueFromJsonNode(json.get(LegacyGraphSONTokens._ID));
+        final Object vertexId = LegacyGraphSONUtility.getTypedValueFromJsonNode(json.get(LegacyGraphSONTokens._ID));
         final Vertex v = factory.createVertex(vertexId);
 
         for (Map.Entry<String, Object> entry : props.entrySet()) {
@@ -227,7 +231,7 @@ public class BlueprintsLegacyGraphSONUtility {
     public Edge edgeFromJson(final JsonNode json, final Vertex out, final Vertex in) throws IOException {
         final Map<String, Object> props = BlueprintsLegacyGraphSONUtility.readProperties(json, true, this.hasEmbeddedTypes);
 
-        final Object edgeId = getTypedValueFromJsonNode(json.get(LegacyGraphSONTokens._ID));
+        final Object edgeId = LegacyGraphSONUtility.getTypedValueFromJsonNode(json.get(LegacyGraphSONTokens._ID));
         final JsonNode nodeLabel = json.get(LegacyGraphSONTokens._LABEL);
 
         // assigned an empty string edge label in cases where one does not exist.  this gets around the requirement
@@ -769,7 +773,7 @@ public class BlueprintsLegacyGraphSONUtility {
                 for (int ix = 0; ix < list.size(); ix++) {
                     // the value of each item in the array is a node object from an ArrayNode...must
                     // get the value of it.
-                    addObject(valueArray, getValue(getTypedValueFromJsonNode(list.get(ix)), includeType));
+                    addObject(valueArray, getValue(LegacyGraphSONUtility.getTypedValueFromJsonNode(list.get(ix)), includeType));
                 }
 
             } else if (type.equals(LegacyGraphSONTokens.TYPE_MAP)) {
@@ -800,38 +804,6 @@ public class BlueprintsLegacyGraphSONUtility {
         }
 
         return returnValue;
-    }
-
-    static Object getTypedValueFromJsonNode(JsonNode node) {
-        Object theValue = null;
-
-        if (node != null && !node.isNull()) {
-            if (node.isBoolean()) {
-                theValue = node.booleanValue();
-            } else if (node.isDouble()) {
-                theValue = node.doubleValue();
-            } else if (node.isFloatingPointNumber()) {
-                theValue = node.floatValue();
-            } else if (node.isInt()) {
-                theValue = node.intValue();
-            } else if (node.isLong()) {
-                theValue = node.longValue();
-            } else if (node.isTextual()) {
-                theValue = node.textValue();
-            } else if (node.isArray()) {
-                // this is an array so just send it back so that it can be
-                // reprocessed to its primitive components
-                theValue = node;
-            } else if (node.isObject()) {
-                // this is an object so just send it back so that it can be
-                // reprocessed to its primitive components
-                theValue = node;
-            } else {
-                theValue = node.textValue();
-            }
-        }
-
-        return theValue;
     }
 
     private static List convertArrayToList(final Object value) {
