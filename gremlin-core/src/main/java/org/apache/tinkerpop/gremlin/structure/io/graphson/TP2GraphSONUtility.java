@@ -439,7 +439,7 @@ public class TP2GraphSONUtility {
      */
     public static JSONObject jsonFromElement(final Element element, final Set<String> propertyKeys,
                                              final GraphSONMode mode) throws JSONException {
-        ElementFactory factory = new FaunusGraphSONUtility.MyElementFactory();
+        ElementFactory factory = new HadoopLegacyGraphSONUtility.MyElementFactory();
         final TP2GraphSONUtility graphson = element instanceof Edge ? new TP2GraphSONUtility(mode, factory, null, propertyKeys)
                 : new TP2GraphSONUtility(mode, factory, propertyKeys, null);
         return graphson.jsonFromElement(element);
@@ -453,14 +453,14 @@ public class TP2GraphSONUtility {
      * @param mode         The type of GraphSON to generate.
      */
     public static ObjectNode objectNodeFromElement(final Element element, final Set<String> propertyKeys, final GraphSONMode mode) {
-        ElementFactory factory = new FaunusGraphSONUtility.MyElementFactory();
+        ElementFactory factory = new HadoopLegacyGraphSONUtility.MyElementFactory();
         final TP2GraphSONUtility graphson = element instanceof Edge ? new TP2GraphSONUtility(mode, factory, null, propertyKeys)
                 : new TP2GraphSONUtility(mode, factory, propertyKeys, null);
         return graphson.objectNodeFromElement(element);
     }
 
     private static ObjectNode objectNodeFromElement(final Element element, final List<String> propertyKeys, final GraphSONMode mode) {
-        ElementFactory factory = new FaunusGraphSONUtility.MyElementFactory();
+        ElementFactory factory = new HadoopLegacyGraphSONUtility.MyElementFactory();
         Set<String> propKeySet = (propertyKeys!=null)? new HashSet<String>(propertyKeys) : null;
         final TP2GraphSONUtility graphson = element instanceof Edge ? new TP2GraphSONUtility(mode, factory, null, propKeySet)
                 : new TP2GraphSONUtility(mode, factory, propKeySet, null);

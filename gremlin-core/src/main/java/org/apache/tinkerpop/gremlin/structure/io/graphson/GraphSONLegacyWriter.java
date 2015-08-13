@@ -138,7 +138,7 @@ public class GraphSONLegacyWriter {
         final Iterable<Vertex> vertices = vertices(normalize);
         for (Vertex v : vertices) {
             try {
-                FaunusGraphSONUtility.toJSON(v).write(writer);
+                HadoopLegacyGraphSONUtility.toJSON(v).write(writer);
             } catch (JSONException e) {
                 e.printStackTrace();
                 throw new IOException(e);
