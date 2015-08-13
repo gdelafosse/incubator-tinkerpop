@@ -47,7 +47,7 @@ import java.util.*;
  *
  * @author Stephen Mallette (http://stephen.genoprime.com)
  */
-public class TP2GraphSONUtility {
+public class BlueprintsLegacyGraphSONUtility {
 
     /**
      * Modes of operation of the GraphSONUtility.
@@ -119,20 +119,20 @@ public class TP2GraphSONUtility {
     /**
      * A GraphSONUtiltiy that includes all properties of vertices and edges.
      */
-    public TP2GraphSONUtility(final GraphSONMode mode, final ElementFactory factory) {
+    public BlueprintsLegacyGraphSONUtility(final GraphSONMode mode, final ElementFactory factory) {
         this(mode, factory, ElementPropertyConfig.AllProperties);
     }
 
     /**
      * A GraphSONUtility that includes the specified properties.
      */
-    public TP2GraphSONUtility(final GraphSONMode mode, final ElementFactory factory,
-                           final Set<String> vertexPropertyKeys, final Set<String> edgePropertyKeys) {
+    public BlueprintsLegacyGraphSONUtility(final GraphSONMode mode, final ElementFactory factory,
+                                           final Set<String> vertexPropertyKeys, final Set<String> edgePropertyKeys) {
         this(mode, factory, ElementPropertyConfig.includeProperties(vertexPropertyKeys, edgePropertyKeys));
     }
 
-    public TP2GraphSONUtility(final GraphSONMode mode, final ElementFactory factory,
-                           final ElementPropertyConfig config) {
+    public BlueprintsLegacyGraphSONUtility(final GraphSONMode mode, final ElementFactory factory,
+                                           final ElementPropertyConfig config) {
         this.vertexPropertyKeys = config.getVertexPropertyKeys();
         this.edgePropertyKeys = config.getEdgePropertyKeys();
         this.vertexPropertiesRule = config.getVertexPropertiesRule();
@@ -225,7 +225,7 @@ public class TP2GraphSONUtility {
      * Creates an edge from GraphSON using settings supplied in the constructor.
      */
     public Edge edgeFromJson(final JsonNode json, final Vertex out, final Vertex in) throws IOException {
-        final Map<String, Object> props = TP2GraphSONUtility.readProperties(json, true, this.hasEmbeddedTypes);
+        final Map<String, Object> props = BlueprintsLegacyGraphSONUtility.readProperties(json, true, this.hasEmbeddedTypes);
 
         final Object edgeId = getTypedValueFromJsonNode(json.get(LegacyGraphSONTokens._ID));
         final JsonNode nodeLabel = json.get(LegacyGraphSONTokens._LABEL);
@@ -324,7 +324,7 @@ public class TP2GraphSONUtility {
      */
     public static Vertex vertexFromJson(final JSONObject json, final ElementFactory factory, final GraphSONMode mode,
                                         final Set<String> propertyKeys) throws IOException {
-        final TP2GraphSONUtility graphson = new TP2GraphSONUtility(mode, factory, propertyKeys, null);
+        final BlueprintsLegacyGraphSONUtility graphson = new BlueprintsLegacyGraphSONUtility(mode, factory, propertyKeys, null);
         return graphson.vertexFromJson(json);
     }
 
@@ -338,7 +338,7 @@ public class TP2GraphSONUtility {
      */
     public static Vertex vertexFromJson(final String json, final ElementFactory factory, final GraphSONMode mode,
                                         final Set<String> propertyKeys) throws IOException {
-        final TP2GraphSONUtility graphson = new TP2GraphSONUtility(mode, factory, propertyKeys, null);
+        final BlueprintsLegacyGraphSONUtility graphson = new BlueprintsLegacyGraphSONUtility(mode, factory, propertyKeys, null);
         return graphson.vertexFromJson(json);
     }
 
@@ -352,7 +352,7 @@ public class TP2GraphSONUtility {
      */
     public static Vertex vertexFromJson(final InputStream json, final ElementFactory factory, final GraphSONMode mode,
                                         final Set<String> propertyKeys) throws IOException {
-        final TP2GraphSONUtility graphson = new TP2GraphSONUtility(mode, factory, propertyKeys, null);
+        final BlueprintsLegacyGraphSONUtility graphson = new BlueprintsLegacyGraphSONUtility(mode, factory, propertyKeys, null);
         return graphson.vertexFromJson(json);
     }
 
@@ -366,7 +366,7 @@ public class TP2GraphSONUtility {
      */
     public static Vertex vertexFromJson(final JsonNode json, final ElementFactory factory, final GraphSONMode mode,
                                         final Set<String> propertyKeys) throws IOException {
-        final TP2GraphSONUtility graphson = new TP2GraphSONUtility(mode, factory, propertyKeys, null);
+        final BlueprintsLegacyGraphSONUtility graphson = new BlueprintsLegacyGraphSONUtility(mode, factory, propertyKeys, null);
         return graphson.vertexFromJson(json);
     }
 
@@ -381,7 +381,7 @@ public class TP2GraphSONUtility {
     public static Edge edgeFromJson(final JSONObject json, final Vertex out, final Vertex in,
                                     final ElementFactory factory, final GraphSONMode mode,
                                     final Set<String> propertyKeys) throws IOException {
-        final TP2GraphSONUtility graphson = new TP2GraphSONUtility(mode, factory, null, propertyKeys);
+        final BlueprintsLegacyGraphSONUtility graphson = new BlueprintsLegacyGraphSONUtility(mode, factory, null, propertyKeys);
         return graphson.edgeFromJson(json, out, in);
     }
 
@@ -396,7 +396,7 @@ public class TP2GraphSONUtility {
     public static Edge edgeFromJson(final String json, final Vertex out, final Vertex in,
                                     final ElementFactory factory, final GraphSONMode mode,
                                     final Set<String> propertyKeys) throws IOException {
-        final TP2GraphSONUtility graphson = new TP2GraphSONUtility(mode, factory, null, propertyKeys);
+        final BlueprintsLegacyGraphSONUtility graphson = new BlueprintsLegacyGraphSONUtility(mode, factory, null, propertyKeys);
         return graphson.edgeFromJson(json, out, in);
     }
 
@@ -411,7 +411,7 @@ public class TP2GraphSONUtility {
     public static Edge edgeFromJson(final InputStream json, final Vertex out, final Vertex in,
                                     final ElementFactory factory, final GraphSONMode mode,
                                     final Set<String> propertyKeys) throws IOException {
-        final TP2GraphSONUtility graphson = new TP2GraphSONUtility(mode, factory, null, propertyKeys);
+        final BlueprintsLegacyGraphSONUtility graphson = new BlueprintsLegacyGraphSONUtility(mode, factory, null, propertyKeys);
         return graphson.edgeFromJson(json, out, in);
     }
 
@@ -426,7 +426,7 @@ public class TP2GraphSONUtility {
     public static Edge edgeFromJson(final JsonNode json, final Vertex out, final Vertex in,
                                     final ElementFactory factory, final GraphSONMode mode,
                                     final Set<String> propertyKeys) throws IOException {
-        final TP2GraphSONUtility graphson = new TP2GraphSONUtility(mode, factory, null, propertyKeys);
+        final BlueprintsLegacyGraphSONUtility graphson = new BlueprintsLegacyGraphSONUtility(mode, factory, null, propertyKeys);
         return graphson.edgeFromJson(json, out, in);
     }
 
@@ -440,8 +440,8 @@ public class TP2GraphSONUtility {
     public static JSONObject jsonFromElement(final Element element, final Set<String> propertyKeys,
                                              final GraphSONMode mode) throws JSONException {
         ElementFactory factory = new HadoopLegacyGraphSONUtility.MyElementFactory();
-        final TP2GraphSONUtility graphson = element instanceof Edge ? new TP2GraphSONUtility(mode, factory, null, propertyKeys)
-                : new TP2GraphSONUtility(mode, factory, propertyKeys, null);
+        final BlueprintsLegacyGraphSONUtility graphson = element instanceof Edge ? new BlueprintsLegacyGraphSONUtility(mode, factory, null, propertyKeys)
+                : new BlueprintsLegacyGraphSONUtility(mode, factory, propertyKeys, null);
         return graphson.jsonFromElement(element);
     }
 
@@ -454,16 +454,16 @@ public class TP2GraphSONUtility {
      */
     public static ObjectNode objectNodeFromElement(final Element element, final Set<String> propertyKeys, final GraphSONMode mode) {
         ElementFactory factory = new HadoopLegacyGraphSONUtility.MyElementFactory();
-        final TP2GraphSONUtility graphson = element instanceof Edge ? new TP2GraphSONUtility(mode, factory, null, propertyKeys)
-                : new TP2GraphSONUtility(mode, factory, propertyKeys, null);
+        final BlueprintsLegacyGraphSONUtility graphson = element instanceof Edge ? new BlueprintsLegacyGraphSONUtility(mode, factory, null, propertyKeys)
+                : new BlueprintsLegacyGraphSONUtility(mode, factory, propertyKeys, null);
         return graphson.objectNodeFromElement(element);
     }
 
     private static ObjectNode objectNodeFromElement(final Element element, final List<String> propertyKeys, final GraphSONMode mode) {
         ElementFactory factory = new HadoopLegacyGraphSONUtility.MyElementFactory();
         Set<String> propKeySet = (propertyKeys!=null)? new HashSet<String>(propertyKeys) : null;
-        final TP2GraphSONUtility graphson = element instanceof Edge ? new TP2GraphSONUtility(mode, factory, null, propKeySet)
-                : new TP2GraphSONUtility(mode, factory, propKeySet, null);
+        final BlueprintsLegacyGraphSONUtility graphson = element instanceof Edge ? new BlueprintsLegacyGraphSONUtility(mode, factory, null, propKeySet)
+                : new BlueprintsLegacyGraphSONUtility(mode, factory, propKeySet, null);
         return graphson.objectNodeFromElement(element);
     }
 

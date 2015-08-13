@@ -155,7 +155,7 @@ public final class GraphSONLegacyReader implements GraphReader {
 
             final JsonNode node = parser.readValueAsTree();
             //final Map<String, Object> vertexData = LegacyGraphSONUtility.readProperties(node);
-            final Map<String, Object> vertexData = TP2GraphSONUtility.readProperties(node, false, false);
+            final Map<String, Object> vertexData = BlueprintsLegacyGraphSONUtility.readProperties(node, false, false);
             //starGraph.addVertex(T.id, vertexData.get(GraphSONTokensTP2._ID), T.label, vertexData.get(GraphSONTokensTP2._LABEL));
             starGraph.addVertex(T.id, vertexData.get(LegacyGraphSONTokens._ID)); //
             for (Map.Entry<String, Object> p : vertexData.entrySet()) {

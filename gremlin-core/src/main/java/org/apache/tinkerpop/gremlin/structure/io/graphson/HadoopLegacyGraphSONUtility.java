@@ -22,8 +22,8 @@ import org.apache.tinkerpop.gremlin.structure.Direction;
 import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Element;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
-import org.apache.tinkerpop.gremlin.structure.io.graphson.TP2GraphSONUtility.ElementFactory;
-import org.apache.tinkerpop.gremlin.structure.io.graphson.TP2GraphSONUtility.GraphSONMode;
+import org.apache.tinkerpop.gremlin.structure.io.graphson.BlueprintsLegacyGraphSONUtility.ElementFactory;
+import org.apache.tinkerpop.gremlin.structure.io.graphson.BlueprintsLegacyGraphSONUtility.GraphSONMode;
 import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedEdge;
 import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertex;
 import org.codehaus.jettison.json.JSONArray;
@@ -57,7 +57,7 @@ public class HadoopLegacyGraphSONUtility {
 
     private static final ElementFactory elementFactory = new MyElementFactory();
 
-    private static final TP2GraphSONUtility graphson = new TP2GraphSONUtility(GraphSONMode.COMPACT, elementFactory,
+    private static final BlueprintsLegacyGraphSONUtility graphson = new BlueprintsLegacyGraphSONUtility(GraphSONMode.COMPACT, elementFactory,
             ElementPropertyConfig.excludeProperties(VERTEX_IGNORE, EDGE_IGNORE));
 
     public static List<Vertex> fromJSON(final InputStream in) throws IOException {
@@ -111,7 +111,7 @@ public class HadoopLegacyGraphSONUtility {
     public static JSONObject toJSON(final Vertex vertex) throws IOException {
         try {
             //final JSONObject object = TP2GraphSONUtility.jsonFromElement(vertex, getElementPropertyKeys(vertex, false), GraphSONMode.COMPACT);
-            final JSONObject object = TP2GraphSONUtility.jsonFromElement(vertex, null, GraphSONMode.COMPACT);
+            final JSONObject object = BlueprintsLegacyGraphSONUtility.jsonFromElement(vertex, null, GraphSONMode.COMPACT);
 
             // force the ID to long.  with blueprints, most implementations will send back a long, but
             // some like TinkerGraph will return a string.  the same is done for edges below
@@ -123,7 +123,7 @@ public class HadoopLegacyGraphSONUtility {
                 final JSONArray outEdgesArray = new JSONArray();
                 for (final Edge outEdge : edges) {
                     //final JSONObject edgeObject = TP2GraphSONUtility.jsonFromElement(outEdge, getElementPropertyKeys(outEdge, true), GraphSONMode.COMPACT);
-                    final JSONObject edgeObject = TP2GraphSONUtility.jsonFromElement(outEdge, null, GraphSONMode.COMPACT);
+                    final JSONObject edgeObject = BlueprintsLegacyGraphSONUtility.jsonFromElement(outEdge, null, GraphSONMode.COMPACT);
                     outEdgesArray.put(edgeObject);
                 }
                 object.put(LegacyGraphSONTokens._OUT_E, outEdgesArray);
@@ -134,7 +134,7 @@ public class HadoopLegacyGraphSONUtility {
                 final JSONArray inEdgesArray = new JSONArray();
                 for (final Edge inEdge : edges) {
                     //final JSONObject edgeObject = TP2GraphSONUtility.jsonFromElement(inEdge, getElementPropertyKeys(inEdge, false), GraphSONMode.COMPACT);
-                    final JSONObject edgeObject = TP2GraphSONUtility.jsonFromElement(inEdge, null, GraphSONMode.COMPACT);
+                    final JSONObject edgeObject = BlueprintsLegacyGraphSONUtility.jsonFromElement(inEdge, null, GraphSONMode.COMPACT);
                     inEdgesArray.put(edgeObject);
                 }
                 object.put(LegacyGraphSONTokens._IN_E, inEdgesArray);

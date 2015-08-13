@@ -25,7 +25,7 @@ import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Element;
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
-import org.apache.tinkerpop.gremlin.structure.io.graphson.TP2GraphSONUtility.GraphSONMode;
+import org.apache.tinkerpop.gremlin.structure.io.graphson.BlueprintsLegacyGraphSONUtility.GraphSONMode;
 import org.codehaus.jettison.json.JSONException;
 
 import java.io.*;
@@ -101,7 +101,7 @@ public class GraphSONLegacyWriter {
         // don't let the JsonGenerator close the underlying stream...leave that to the client passing in the stream
         jg.configure(JsonGenerator.Feature.AUTO_CLOSE_TARGET, false);
 
-        final TP2GraphSONUtility graphson = new TP2GraphSONUtility(mode, null,
+        final BlueprintsLegacyGraphSONUtility graphson = new BlueprintsLegacyGraphSONUtility(mode, null,
                 ElementPropertyConfig.includeProperties(vertexPropertyKeys, edgePropertyKeys, normalize));
 
         jg.writeStartObject();
