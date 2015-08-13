@@ -26,7 +26,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.apache.tinkerpop.gremlin.structure.Direction;
 import org.apache.tinkerpop.gremlin.structure.Property;
-import org.apache.tinkerpop.gremlin.structure.T;
 import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
@@ -80,13 +79,13 @@ public final class LegacyGraphSONReader implements GraphReader {
             while (parser.nextToken() != JsonToken.END_OBJECT) {
                 final String fieldName = parser.getCurrentName() == null ? "" : parser.getCurrentName();
                 switch (fieldName) {
-                    case GraphSONTokensTP2.MODE:
+                    case LegacyGraphSONTokens.MODE:
                         parser.nextToken();
                         final String mode = parser.getText();
                         if (!mode.equals("EXTENDED"))
                             throw new IllegalStateException("The legacy GraphSON must be generated with GraphSONMode.EXTENDED");
                         break;
-                    case GraphSONTokensTP2.VERTICES:
+                    case LegacyGraphSONTokens.VERTICES:
                         parser.nextToken();
                         while (parser.nextToken() != JsonToken.END_ARRAY) {
                             final JsonNode node = parser.readValueAsTree();
@@ -96,12 +95,12 @@ public final class LegacyGraphSONReader implements GraphReader {
                                 graphToWriteTo.tx().commit();
                         }
                         break;
-                    case GraphSONTokensTP2.EDGES:
+                    case LegacyGraphSONTokens.EDGES:
                         parser.nextToken();
                         while (parser.nextToken() != JsonToken.END_ARRAY) {
                             final JsonNode node = parser.readValueAsTree();
-                            final Vertex inV = cache.get(LegacyGraphSONUtility.getTypedValueFromJsonNode(node.get(GraphSONTokensTP2._IN_V)));
-                            final Vertex outV = cache.get(LegacyGraphSONUtility.getTypedValueFromJsonNode(node.get(GraphSONTokensTP2._OUT_V)));
+                            final Vertex inV = cache.get(LegacyGraphSONUtility.getTypedValueFromJsonNode(node.get(LegacyGraphSONTokens._IN_V)));
+                            final Vertex outV = cache.get(LegacyGraphSONUtility.getTypedValueFromJsonNode(node.get(LegacyGraphSONTokens._OUT_V)));
                             graphson.edgeFromJson(node, outV, inV);
 
                             if (supportsTx && counter.incrementAndGet() % batchSize == 0)

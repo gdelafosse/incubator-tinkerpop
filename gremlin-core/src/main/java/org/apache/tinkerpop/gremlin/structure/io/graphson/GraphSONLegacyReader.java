@@ -157,7 +157,7 @@ public final class GraphSONLegacyReader implements GraphReader {
             //final Map<String, Object> vertexData = LegacyGraphSONUtility.readProperties(node);
             final Map<String, Object> vertexData = TP2GraphSONUtility.readProperties(node, false, false);
             //starGraph.addVertex(T.id, vertexData.get(GraphSONTokensTP2._ID), T.label, vertexData.get(GraphSONTokensTP2._LABEL));
-            starGraph.addVertex(T.id, vertexData.get(GraphSONTokensTP2._ID)); //
+            starGraph.addVertex(T.id, vertexData.get(LegacyGraphSONTokens._ID)); //
             for (Map.Entry<String, Object> p : vertexData.entrySet()) {
                 if (LegacyGraphSONUtility.isReservedKey(p.getKey()))
                     continue;
@@ -165,11 +165,11 @@ public final class GraphSONLegacyReader implements GraphReader {
             }
             if (vertexAttachMethod != null) vertexAttachMethod.apply(starGraph.getStarVertex());
 
-            if (vertexData.containsKey(GraphSONTokensTP2._OUT_E) && (attachEdgesOfThisDirection == Direction.BOTH || attachEdgesOfThisDirection == Direction.OUT))
-                readEdges(edgeAttachMethod, starGraph, vertexData, GraphSONTokensTP2._OUT_E);
+            if (vertexData.containsKey(LegacyGraphSONTokens._OUT_E) && (attachEdgesOfThisDirection == Direction.BOTH || attachEdgesOfThisDirection == Direction.OUT))
+                readEdges(edgeAttachMethod, starGraph, vertexData, LegacyGraphSONTokens._OUT_E);
 
-            if (vertexData.containsKey(GraphSONTokensTP2._IN_E) && (attachEdgesOfThisDirection == Direction.BOTH || attachEdgesOfThisDirection == Direction.IN))
-                readEdges(edgeAttachMethod, starGraph, vertexData, GraphSONTokensTP2._IN_E);
+            if (vertexData.containsKey(LegacyGraphSONTokens._IN_E) && (attachEdgesOfThisDirection == Direction.BOTH || attachEdgesOfThisDirection == Direction.IN))
+                readEdges(edgeAttachMethod, starGraph, vertexData, LegacyGraphSONTokens._IN_E);
 
         } catch (Exception ex) {
             throw new IOException(ex);
@@ -187,11 +187,11 @@ public final class GraphSONLegacyReader implements GraphReader {
         //for (Map.Entry<String, List<Map<String,Object>>> edgeData : edgeDatas.entrySet()) {
             for (Map<String,Object> edgeData : edgeDatas) { //edgeData.getValue()) {
                 final StarGraph.StarEdge starEdge;
-                String edgeLabel = edgeData.get(GraphSONTokensTP2._LABEL).toString();
+                String edgeLabel = edgeData.get(LegacyGraphSONTokens._LABEL).toString();
                 if (direction.equals(GraphSONTokens.OUT_E))
-                    starEdge = (StarGraph.StarEdge) starGraph.getStarVertex().addOutEdge(edgeLabel, starGraph.addVertex(T.id, edgeData.get(GraphSONTokensTP2._IN_V)), T.id, edgeData.get(GraphSONTokensTP2._ID));
+                    starEdge = (StarGraph.StarEdge) starGraph.getStarVertex().addOutEdge(edgeLabel, starGraph.addVertex(T.id, edgeData.get(LegacyGraphSONTokens._IN_V)), T.id, edgeData.get(LegacyGraphSONTokens._ID));
                 else
-                    starEdge = (StarGraph.StarEdge) starGraph.getStarVertex().addInEdge(edgeLabel, starGraph.addVertex(T.id, edgeData.get(GraphSONTokensTP2._OUT_V)), T.id, edgeData.get(GraphSONTokensTP2._ID));
+                    starEdge = (StarGraph.StarEdge) starGraph.getStarVertex().addInEdge(edgeLabel, starGraph.addVertex(T.id, edgeData.get(LegacyGraphSONTokens._OUT_V)), T.id, edgeData.get(LegacyGraphSONTokens._ID));
                 for (Map.Entry<String, Object> epd : edgeData.entrySet()) {
                     if (!LegacyGraphSONUtility.isReservedKey(epd.getKey()))
                         starEdge.property(epd.getKey(), epd.getValue());
@@ -214,11 +214,11 @@ public final class GraphSONLegacyReader implements GraphReader {
 
         final Map<String,Object> edgeProperties = edgeData.containsKey(GraphSONTokens.PROPERTIES) ?
                 (Map<String, Object>) edgeData.get(GraphSONTokens.PROPERTIES) : Collections.EMPTY_MAP;
-        final DetachedEdge edge = new DetachedEdge(edgeData.get(GraphSONTokensTP2._ID),
-                edgeData.get(GraphSONTokensTP2._LABEL).toString(),
+        final DetachedEdge edge = new DetachedEdge(edgeData.get(LegacyGraphSONTokens._ID),
+                edgeData.get(LegacyGraphSONTokens._LABEL).toString(),
                 edgeProperties,
-                Pair.with(edgeData.get(GraphSONTokensTP2._OUT_V), null),
-                Pair.with(edgeData.get(GraphSONTokensTP2._IN_V), null));
+                Pair.with(edgeData.get(LegacyGraphSONTokens._OUT_V), null),
+                Pair.with(edgeData.get(LegacyGraphSONTokens._IN_V), null));
 
         return edgeAttachMethod.apply(edge);
     }

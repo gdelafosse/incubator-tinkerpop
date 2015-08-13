@@ -47,7 +47,7 @@ public final class LegacyGraphSONUtility {
     public Vertex vertexFromJson(final JsonNode json) throws IOException {
         final Map<String, Object> props = readProperties(json);
 
-        final Object vertexId = getTypedValueFromJsonNode(json.get(GraphSONTokensTP2._ID));
+        final Object vertexId = getTypedValueFromJsonNode(json.get(LegacyGraphSONTokens._ID));
         final Vertex v = vertexFeatures.willAllowId(vertexId) ? g.addVertex(T.id, vertexId) : g.addVertex();
         cache.put(vertexId, v);
 
@@ -61,8 +61,8 @@ public final class LegacyGraphSONUtility {
     public Edge edgeFromJson(final JsonNode json, final Vertex out, final Vertex in) throws IOException {
         final Map<String, Object> props = LegacyGraphSONUtility.readProperties(json);
 
-        final Object edgeId = getTypedValueFromJsonNode(json.get(GraphSONTokensTP2._ID));
-        final JsonNode nodeLabel = json.get(GraphSONTokensTP2._LABEL);
+        final Object edgeId = getTypedValueFromJsonNode(json.get(LegacyGraphSONTokens._ID));
+        final JsonNode nodeLabel = json.get(LegacyGraphSONTokens._LABEL);
         final String label = nodeLabel == null ? EMPTY_STRING : nodeLabel.textValue();
 
         final Edge e = edgeFeatures.willAllowId(edgeId) ? out.addEdge(label, in, T.id, edgeId) : out.addEdge(label, in) ;
@@ -94,36 +94,36 @@ public final class LegacyGraphSONUtility {
     }
 
     public static boolean isReservedKey(final String key) {
-        return key.equals(GraphSONTokensTP2._ID) || key.equals(GraphSONTokensTP2._TYPE) || key.equals(GraphSONTokensTP2._LABEL)
-                || key.equals(GraphSONTokensTP2._OUT_V) || key.equals(GraphSONTokensTP2._IN_V)
-                || key.equals(GraphSONTokensTP2._IN_E) || key.equals(GraphSONTokensTP2._OUT_E);
+        return key.equals(LegacyGraphSONTokens._ID) || key.equals(LegacyGraphSONTokens._TYPE) || key.equals(LegacyGraphSONTokens._LABEL)
+                || key.equals(LegacyGraphSONTokens._OUT_V) || key.equals(LegacyGraphSONTokens._IN_V)
+                || key.equals(LegacyGraphSONTokens._IN_E) || key.equals(LegacyGraphSONTokens._OUT_E);
     }
 
     private static Object readProperty(final JsonNode node) {
         final Object propertyValue;
 
-        if (node.get(GraphSONTokensTP2._TYPE).textValue().equals(GraphSONTokensTP2.TYPE_UNKNOWN)) {
+        if (node.get(LegacyGraphSONTokens._TYPE).textValue().equals(LegacyGraphSONTokens.TYPE_UNKNOWN)) {
             propertyValue = null;
-        } else if (node.get(GraphSONTokensTP2._TYPE).textValue().equals(GraphSONTokensTP2.TYPE_BOOLEAN)) {
-            propertyValue = node.get(GraphSONTokensTP2.VALUE).booleanValue();
-        } else if (node.get(GraphSONTokensTP2._TYPE).textValue().equals(GraphSONTokensTP2.TYPE_FLOAT)) {
-            propertyValue = Float.parseFloat(node.get(GraphSONTokensTP2.VALUE).asText());
-        } else if (node.get(GraphSONTokensTP2._TYPE).textValue().equals(GraphSONTokensTP2.TYPE_BYTE)) {
-            propertyValue = Byte.parseByte(node.get(GraphSONTokensTP2.VALUE).asText());
-        } else if (node.get(GraphSONTokensTP2._TYPE).textValue().equals(GraphSONTokensTP2.TYPE_SHORT)) {
-            propertyValue = Short.parseShort(node.get(GraphSONTokensTP2.VALUE).asText());
-        } else if (node.get(GraphSONTokensTP2._TYPE).textValue().equals(GraphSONTokensTP2.TYPE_DOUBLE)) {
-            propertyValue = node.get(GraphSONTokensTP2.VALUE).doubleValue();
-        } else if (node.get(GraphSONTokensTP2._TYPE).textValue().equals(GraphSONTokensTP2.TYPE_INTEGER)) {
-            propertyValue = node.get(GraphSONTokensTP2.VALUE).intValue();
-        } else if (node.get(GraphSONTokensTP2._TYPE).textValue().equals(GraphSONTokensTP2.TYPE_LONG)) {
-            propertyValue = node.get(GraphSONTokensTP2.VALUE).longValue();
-        } else if (node.get(GraphSONTokensTP2._TYPE).textValue().equals(GraphSONTokensTP2.TYPE_STRING)) {
-            propertyValue = node.get(GraphSONTokensTP2.VALUE).textValue();
-        } else if (node.get(GraphSONTokensTP2._TYPE).textValue().equals(GraphSONTokensTP2.TYPE_LIST)) {
-            propertyValue = readProperties(node.get(GraphSONTokensTP2.VALUE).elements());
-        } else if (node.get(GraphSONTokensTP2._TYPE).textValue().equals(GraphSONTokensTP2.TYPE_MAP)) {
-            propertyValue = readProperties(node.get(GraphSONTokensTP2.VALUE));
+        } else if (node.get(LegacyGraphSONTokens._TYPE).textValue().equals(LegacyGraphSONTokens.TYPE_BOOLEAN)) {
+            propertyValue = node.get(LegacyGraphSONTokens.VALUE).booleanValue();
+        } else if (node.get(LegacyGraphSONTokens._TYPE).textValue().equals(LegacyGraphSONTokens.TYPE_FLOAT)) {
+            propertyValue = Float.parseFloat(node.get(LegacyGraphSONTokens.VALUE).asText());
+        } else if (node.get(LegacyGraphSONTokens._TYPE).textValue().equals(LegacyGraphSONTokens.TYPE_BYTE)) {
+            propertyValue = Byte.parseByte(node.get(LegacyGraphSONTokens.VALUE).asText());
+        } else if (node.get(LegacyGraphSONTokens._TYPE).textValue().equals(LegacyGraphSONTokens.TYPE_SHORT)) {
+            propertyValue = Short.parseShort(node.get(LegacyGraphSONTokens.VALUE).asText());
+        } else if (node.get(LegacyGraphSONTokens._TYPE).textValue().equals(LegacyGraphSONTokens.TYPE_DOUBLE)) {
+            propertyValue = node.get(LegacyGraphSONTokens.VALUE).doubleValue();
+        } else if (node.get(LegacyGraphSONTokens._TYPE).textValue().equals(LegacyGraphSONTokens.TYPE_INTEGER)) {
+            propertyValue = node.get(LegacyGraphSONTokens.VALUE).intValue();
+        } else if (node.get(LegacyGraphSONTokens._TYPE).textValue().equals(LegacyGraphSONTokens.TYPE_LONG)) {
+            propertyValue = node.get(LegacyGraphSONTokens.VALUE).longValue();
+        } else if (node.get(LegacyGraphSONTokens._TYPE).textValue().equals(LegacyGraphSONTokens.TYPE_STRING)) {
+            propertyValue = node.get(LegacyGraphSONTokens.VALUE).textValue();
+        } else if (node.get(LegacyGraphSONTokens._TYPE).textValue().equals(LegacyGraphSONTokens.TYPE_LIST)) {
+            propertyValue = readProperties(node.get(LegacyGraphSONTokens.VALUE).elements());
+        } else if (node.get(LegacyGraphSONTokens._TYPE).textValue().equals(LegacyGraphSONTokens.TYPE_MAP)) {
+            propertyValue = readProperties(node.get(LegacyGraphSONTokens.VALUE));
         } else {
             propertyValue = node.textValue();
         }

@@ -18,9 +18,9 @@
  */
 package org.apache.tinkerpop.gremlin.structure.io.graphson;
 
-public final class GraphSONTokensTP2 {
+public final class LegacyGraphSONTokens {
 
-    private GraphSONTokensTP2() {}
+    private LegacyGraphSONTokens() {}
 
     public static final String _ID = "_id";
     public static final String _LABEL = "_label";

@@ -106,9 +106,9 @@ public class GraphSONLegacyWriter {
 
         jg.writeStartObject();
 
-        jg.writeStringField(GraphSONTokensTP2.MODE, mode.toString());
+        jg.writeStringField(LegacyGraphSONTokens.MODE, mode.toString());
 
-        jg.writeArrayFieldStart(GraphSONTokensTP2.VERTICES);
+        jg.writeArrayFieldStart(LegacyGraphSONTokens.VERTICES);
 
         final Iterable<Vertex> vertices = vertices(normalize);
         for (Vertex v : vertices) {
@@ -117,7 +117,7 @@ public class GraphSONLegacyWriter {
 
         jg.writeEndArray();
 
-        jg.writeArrayFieldStart(GraphSONTokensTP2.EDGES);
+        jg.writeArrayFieldStart(LegacyGraphSONTokens.EDGES);
 
         final Iterable<Edge> edges = edges(normalize);
         for (Edge e : edges) {

@@ -52,8 +52,8 @@ public class FaunusGraphSONUtility {
     //private static final String _IN_E = "_inE";
     private static final String EMPTY_STRING = "";
 
-    private static final Set<String> VERTEX_IGNORE = new HashSet<String>(Arrays.asList(GraphSONTokensTP2._TYPE, GraphSONTokensTP2._OUT_E, GraphSONTokensTP2._IN_E));
-    private static final Set<String> EDGE_IGNORE = new HashSet<String>(Arrays.asList(GraphSONTokensTP2._TYPE, GraphSONTokensTP2._OUT_V, GraphSONTokensTP2._IN_V));
+    private static final Set<String> VERTEX_IGNORE = new HashSet<String>(Arrays.asList(LegacyGraphSONTokens._TYPE, LegacyGraphSONTokens._OUT_E, LegacyGraphSONTokens._IN_E));
+    private static final Set<String> EDGE_IGNORE = new HashSet<String>(Arrays.asList(LegacyGraphSONTokens._TYPE, LegacyGraphSONTokens._OUT_V, LegacyGraphSONTokens._IN_V));
 
     private static final ElementFactory elementFactory = new MyElementFactory();
 
@@ -79,10 +79,10 @@ public class FaunusGraphSONUtility {
 
             final Vertex vertex = graphson.vertexFromJson(json);
 
-            fromJSONEdges(vertex, json.optJSONArray(GraphSONTokensTP2._OUT_E), OUT);
-            json.remove(GraphSONTokensTP2._OUT_E); // clear up some memory
-            fromJSONEdges(vertex, json.optJSONArray(GraphSONTokensTP2._IN_E), IN);
-            json.remove(GraphSONTokensTP2._IN_E); // clear up some memory
+            fromJSONEdges(vertex, json.optJSONArray(LegacyGraphSONTokens._OUT_E), OUT);
+            json.remove(LegacyGraphSONTokens._OUT_E); // clear up some memory
+            fromJSONEdges(vertex, json.optJSONArray(LegacyGraphSONTokens._IN_E), IN);
+            json.remove(LegacyGraphSONTokens._IN_E); // clear up some memory
 
             return vertex;
         } catch (Exception e) {
@@ -96,13 +96,13 @@ public class FaunusGraphSONUtility {
                 final JSONObject jsonEdge = edges.optJSONObject(i);
                 Edge edge = null;
                 if (direction.equals(Direction.IN)) {
-                    DetachedVertex outVertex = new DetachedVertex(jsonEdge.optLong(GraphSONTokensTP2._OUT_V),null,new HashMap<>());
+                    DetachedVertex outVertex = new DetachedVertex(jsonEdge.optLong(LegacyGraphSONTokens._OUT_V),null,new HashMap<>());
                     edge = graphson.edgeFromJson(jsonEdge, outVertex, vertex);
-                    outVertex.addEdge(jsonEdge.optString(GraphSONTokensTP2._LABEL), vertex);
+                    outVertex.addEdge(jsonEdge.optString(LegacyGraphSONTokens._LABEL), vertex);
                 } else if (direction.equals(Direction.OUT)) {
-                    DetachedVertex inVertex = new DetachedVertex(jsonEdge.optLong(GraphSONTokensTP2._IN_V),null,new HashMap<>());
+                    DetachedVertex inVertex = new DetachedVertex(jsonEdge.optLong(LegacyGraphSONTokens._IN_V),null,new HashMap<>());
                     edge = graphson.edgeFromJson(jsonEdge, vertex, inVertex);
-                    vertex.addEdge(jsonEdge.optString(GraphSONTokensTP2._LABEL), inVertex);
+                    vertex.addEdge(jsonEdge.optString(LegacyGraphSONTokens._LABEL), inVertex);
                 }
             }
         }
@@ -115,7 +115,7 @@ public class FaunusGraphSONUtility {
 
             // force the ID to long.  with blueprints, most implementations will send back a long, but
             // some like TinkerGraph will return a string.  the same is done for edges below
-            object.put(GraphSONTokensTP2._ID, Long.valueOf(object.remove(GraphSONTokensTP2._ID).toString()));
+            object.put(LegacyGraphSONTokens._ID, Long.valueOf(object.remove(LegacyGraphSONTokens._ID).toString()));
 
             List<Edge> edges =  new ArrayList<Edge>();
             vertex.edges(OUT).forEachRemaining(edges::add);
@@ -126,7 +126,7 @@ public class FaunusGraphSONUtility {
                     final JSONObject edgeObject = TP2GraphSONUtility.jsonFromElement(outEdge, null, GraphSONMode.COMPACT);
                     outEdgesArray.put(edgeObject);
                 }
-                object.put(GraphSONTokensTP2._OUT_E, outEdgesArray);
+                object.put(LegacyGraphSONTokens._OUT_E, outEdgesArray);
             }
 
             vertex.edges(IN).forEachRemaining(edges::add);
@@ -137,7 +137,7 @@ public class FaunusGraphSONUtility {
                     final JSONObject edgeObject = TP2GraphSONUtility.jsonFromElement(inEdge, null, GraphSONMode.COMPACT);
                     inEdgesArray.put(edgeObject);
                 }
-                object.put(GraphSONTokensTP2._IN_E, inEdgesArray);
+                object.put(LegacyGraphSONTokens._IN_E, inEdgesArray);
             }
 
             return object;
